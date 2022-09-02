@@ -2,24 +2,27 @@ import './App.css';
 import Home from './paginas/home/Home';
 import Navbar from './components/estaticos/navbar/Navbar';
 import Footer from './components/estaticos/footer/Footer';
+import CadastroUsuario from './paginas/cadastroUsuario/CadastroUsuario';
 import Login from './paginas/login/Login';
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
 function App() {
   return (
     <Router>
-      <Navbar />
-      <div style={{ minHeight: '100vh' }}>
-        <Routes>
-          <Route path="/" element={<Login />} />
+    <Navbar />
+    <Routes>
 
-          <Route path="/home" element={<Home />} />
+      <Route path="/" element={<Login  />} />
 
-          <Route path="/login" element={<Login />} />
-        </Routes>
-      </div>
-      <Footer />
-    </Router>
+      <Route path="/home" element={<Home />} />
+
+      <Route path="/login" element={<Login />} />
+
+      <Route path="/cadastrousuario" element={<CadastroUsuario/>} />
+
+    </Routes>
+    <Footer />
+  </Router>
 
   );
 }
