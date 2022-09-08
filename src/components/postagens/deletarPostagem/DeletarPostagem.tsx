@@ -10,8 +10,11 @@ import { buscaId, deleteId } from '../../../services/Service';
 function DeletarPostagem() {
 
   let navigate = useNavigate();
+
     const { id } = useParams<{id: string}>();
+
     const [token, setToken] = useLocalStorage('token');
+
     const [post, setPosts] = useState<Postagem>()
 
     useEffect(() => {
@@ -29,7 +32,7 @@ function DeletarPostagem() {
     }, [id])
 
     async function findById(id: string) {
-        buscaId(`/postagens/${id}`, setPosts, {
+        buscaId(`/posts/${id}`, setPosts, {
             headers: {
               'Authorization': token
             }

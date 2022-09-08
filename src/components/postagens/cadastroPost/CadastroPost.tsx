@@ -10,9 +10,34 @@ import { busca, buscaId, post, put } from '../../../services/Service';
 function CadastroPost() {
  
     let navigate = useNavigate();
+
     const { id } = useParams<{ id: string }>();
-    const [temas, setTemas] = useState<Tema[]>([])
+
+    const [temas, setTemas] = useState<Tema[]>([]); //array com vários temas
+
     const [token, setToken] = useLocalStorage('token');
+
+
+    const [tema, setTema] = useState<Tema>( //temas específico atribuido a postagem 
+        {
+            id: 0,
+            descricao: ''
+        })
+
+    const [postagem, setPostagem] = useState<Postagem>({
+        id: 0,
+            titulo: '',
+            texto: '',
+            data: '',
+            tema: null,
+            usuario: {
+                id: 1,  
+                nome: '',
+                usuario: '',
+                senha: '',
+                foto: ''
+            }
+    })
 
     useEffect(() => {
         if (token == "") {
@@ -21,19 +46,6 @@ function CadastroPost() {
 
         }
     }, [token])
-
-    const [tema, setTema] = useState<Tema>(
-        {
-            id: 0,
-            descricao: ''
-        })
-    const [postagem, setPostagem] = useState<Postagem>({
-        id: 0,
-        titulo: '',
-        texto: '',
-        data: '',
-        tema: null
-    })
 
     useEffect(() => { 
         setPostagem({
@@ -50,7 +62,7 @@ function CadastroPost() {
     }, [id])
 
     async function getTemas() {
-        await busca("/tema", setTemas, {
+        await busca("/temas", setTemas, {
             headers: {
                 'Authorization': token
             }
@@ -103,6 +115,7 @@ function CadastroPost() {
 
     return (
         <Container maxWidth="sm" className="topo">
+            
             <form onSubmit={onSubmit}>
                 <Typography variant="h3" color="textSecondary" component="h1" align="center" >Formulário de cadastro postagem</Typography>
                 <TextField value={postagem.titulo} onChange={(e: ChangeEvent<HTMLInputElement>) => updatedPostagem(e)} id="titulo" label="titulo" variant="outlined" name="titulo" margin="normal" fullWidth />
@@ -113,7 +126,7 @@ function CadastroPost() {
                     <Select
                         labelId="demo-simple-select-helper-label"
                         id="demo-simple-select-helper"
-                        onChange={(e) => buscaId(`/tema/${e.target.value}`, setTema, {
+                        onChange={(e) => buscaId(`/temas/${e.target.value}`, setTema, {
                             headers: {
                                 'Authorization': token
                             }
