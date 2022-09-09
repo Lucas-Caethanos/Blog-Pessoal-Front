@@ -3,9 +3,12 @@ import { Container, Typography, TextField, Button, Select, InputLabel, MenuItem,
 import './CadastroPost.css';
 import { useNavigate, useParams } from 'react-router-dom';
 import Tema from '../../../models/Tema';
-import useLocalStorage from 'react-use-localstorage';
+
 import Postagem from '../../../models/Postagem';
 import { busca, buscaId, post, put } from '../../../services/Service';
+import { useSelector } from 'react-redux';
+import { TokenState } from '../../../store/tokens/tokensReducer';
+import { Action, addToken } from '../../../store/tokens/Actions';
 
 function CadastroPost() {
  
@@ -15,7 +18,9 @@ function CadastroPost() {
 
     const [temas, setTemas] = useState<Tema[]>([]); //array com vários temas
 
-    const [token, setToken] = useLocalStorage('token');
+    const token = useSelector<TokenState, TokenState["tokens"]>(
+        (state) => state.tokens
+      );
 
 
     const [tema, setTema] = useState<Tema>( //temas específico atribuido a postagem 
@@ -42,6 +47,7 @@ function CadastroPost() {
     useEffect(() => {
         if (token == "") {
             alert("Você precisa estar logado")
+            dispatch(addToken(token))
             navigate("/login")
 
         }
@@ -147,3 +153,7 @@ function CadastroPost() {
     )
 }
 export default CadastroPost;
+
+function dispatch(arg0: Action) {
+    throw new Error('Function not implemented.');
+}

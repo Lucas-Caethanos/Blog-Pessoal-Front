@@ -7,6 +7,9 @@ import { busca } from '../../../services/Service';
 import useLocalStorage from 'react-use-localstorage';
 import { useNavigate } from 'react-router-dom';
 import './ListaTema.css';
+import { useSelector } from 'react-redux';
+import { TokenState } from '../../../store/tokens/tokensReducer';
+import { addToken } from '../../../store/tokens/Actions';
 
 function ListaTema() {
 
@@ -16,11 +19,14 @@ function ListaTema() {
 
   //temas: [ {id: descrição: }, {id: descrição: } ]
 
-  const [token, setToken] = useLocalStorage('token');
+  const token = useSelector<TokenState, TokenState["tokens"]>(
+    (state) => state.tokens
+  );
 
   useEffect(() => {
     if (token == "") {
       alert("Você precisa estar logado")
+      dispatch(addToken(token))
       navigate("/login")
     }
   }, [token])
@@ -61,7 +67,7 @@ function ListaTema() {
                         atualizar
                       </Button>
                     </Box>
-                    
+
                   </Link>
                   <Link to={`/deletarTema/${tema.id}`} className="text-decorator-none">
                     <Box mx={1}>
@@ -82,3 +88,7 @@ function ListaTema() {
 
 
 export default ListaTema;
+
+function dispatch(arg0: any) {
+  throw new Error('Function not implemented.');
+}
